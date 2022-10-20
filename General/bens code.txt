@@ -1,0 +1,108 @@
+<style>
+.container{  
+text-align: center;  
+border: 7px solid red;  
+width: 300px;  
+height: 200px;  
+padding-top: 100px;  
+}  
+
+img {
+	
+  width: 200px;
+  height: 70px;
+}
+
+</style>
+<script>
+function printDiv(divName) {
+     var printContents = document.getElementById(divName).innerHTML;
+     var originalContents = document.body.innerHTML;
+
+     document.body.innerHTML = printContents;
+
+     window.print();
+
+     document.body.innerHTML = originalContents;
+}
+
+</script>
+<div class="container-fluid" id="printableArea">
+<center_move>
+<?php
+session_start();
+$servername = "localhost";
+$username = "ben";
+$password = "Testing123#@";
+$db = "arden";
+
+
+// Create connection
+$conn = new mysqli($servername, $username, $password, $db);
+
+// Check connection
+if ($conn->connect_error) {
+  die("Connection failed: " . $conn->connect_error);
+} else {
+	#echo "Connected successfully";
+}
+
+									$itemid = $_GET['itemid'];
+									$name = $_GET['name'];
+									
+									if(isset($_GET['password'])){
+										
+										$passwords = $_GET['password'];
+									}
+										
+										$sql = "SELECT `item_id`, `job_id`, `staff_id`, `note`, `time` FROM `inventory_items` WHERE `item_id`=".$itemid." ORDER BY 1 DESC;";
+										
+										
+										$result = mysqli_query($conn, $sql);
+										
+										while ($row = mysqli_fetch_assoc($result)) { // Important line !!! Check summary get row on array ..
+										
+											$id = $row['item_id'];
+											$itemname = $row['note'];
+											$link = 'https://barcode.tec-it.com/barcode.ashx?data='.$id.'&code=&multiplebarcodes=true&translate-esc=false&unit=Fit&dpi=96&imagetype=svg&rotation=0&color=%23000000&bgcolor=%23ffffff&codepage=Default&qunit=Mm&quiet=0';
+
+											if(isset($passwords)){
+												
+											echo '<div style="text-align: center; font-size: 16px; margin-top:-5px;">
+												  <!-- insert your custom barcode setting your data in the GET parameter "data" -->
+												  <h4>'.$name.' <br> '.$itemname.' - '.$passwords.'</h4>
+												  <img style="margin-top:-20px; margin-bottom:5px;" alt="Barcode" src="'.$link.'"/>
+												</div>';
+												
+											} else {
+												
+												echo '<div style="text-align: center; font-size: 16px; margin-top:-5px;">
+												  <!-- insert your custom barcode setting your data in the GET parameter "data" -->
+												  <h4>'.$name.' <br> '.$itemname.'</h4>
+												  <img style="margin-top:-20px; margin-bottom:5px;" alt="Barcode" src="'.$link.'"/>
+												</div>';
+												
+												
+											}
+											
+												
+											}
+										
+
+									
+
+
+
+
+
+
+
+
+
+
+?>
+
+</div>
+<div class="container">  
+<?php echo '<button class="btn btn-success btn-lg btn-block" onclick="printDiv('."'".'printableArea'."'".')"><i class="fa fa-print" aria-hidden="true"> Print</i></button> '; ?>
+<?php echo '<button class="btn btn-success btn-lg btn-block" onclick="window.close()"><i class="fa fa-print" aria-hidden="true"> Close Window</i></button> '; ?>
