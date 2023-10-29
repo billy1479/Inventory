@@ -1,5 +1,4 @@
 <?php
-// will need to add casting to the date parameter to the sql statement
 require_once __DIR__.'/connect.php';
 $name = $_POST['name'];
 $note = $_POST['note'];

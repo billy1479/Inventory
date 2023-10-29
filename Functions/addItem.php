@@ -1,5 +1,4 @@
 <?php
-// all working
 require_once __DIR__."/connect.php";
 $newItem = $_POST['itemName'];
 $newStock = 0;

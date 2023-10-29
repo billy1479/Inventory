@@ -5,7 +5,6 @@ $quantity = $_POST['quantity'];
 $name = $_POST['itemName'];
 $area = $_POST['area'];
 $state = 0;
-// needs testing and checking before executing (may make wrong entries) - sort printing first
 $data = mysqli_query($conn, 'SELECT ID From main order by ID desc');
 $row = mysqli_fetch_array($data);
 $value = $row[0];
